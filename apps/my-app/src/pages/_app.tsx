@@ -8,6 +8,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <NextIntlClientProvider
       locale={pageProps.i18n.locale}
+      timeZone="Australia/Melbourne"
       messages={pageProps.i18n.messages}
     >
       <Head>
