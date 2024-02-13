@@ -1,10 +1,18 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { ComponentType, lazy, useEffect, useState } from 'react';
+import {
+  ComponentType,
+  ReactElement,
+  lazy,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { DefaultLayout } from '../../components/DefaultLayout';
 
-export function SettingsPages() {
-  const [Component, setComponent] = useState<null | undefined | ComponentType>(
-    null
-  );
+export function SettingsPages(props: { i18n: { locale?: string } }) {
+  const [Component, setComponent] = useState<
+    null | undefined | ComponentType<{ basename?: string }>
+  >(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -13,8 +21,24 @@ export function SettingsPages() {
     }
   }, []);
 
-  return <>{Component ? <Component /> : null}</>;
+  const basename = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      if (
+        window.location.pathname.split('/').at(1)?.toLocaleLowerCase() ===
+        props.i18n.locale?.toLocaleLowerCase()
+      ) {
+        return props.i18n.locale;
+      }
+    }
+    return undefined;
+  }, [props.i18n.locale]);
+
+  return <>{Component ? <Component basename={basename} /> : null}</>;
 }
+
+SettingsPages.getLayout = function getLayout(page: ReactElement) {
+  return <DefaultLayout>{page}</DefaultLayout>;
+};
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
@@ -24,7 +48,8 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const locale = context.locale || 'en';
+  console.log(context);
+  const locale = context.locale;
 
   return {
     props: {

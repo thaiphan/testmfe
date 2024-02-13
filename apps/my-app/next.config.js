@@ -19,7 +19,7 @@ const nextConfig = {
           filename: 'remoteEntry.js',
           remotes: {
             settings:
-              'settings@https://d3dgo17bvznzj1.cloudfront.net/settings/remoteEntry.js',
+              'settings@https://d3dgo17bvznzj1.cloudfront.net/remoteEntry.js',
           },
           extraOptions: {},
         })
