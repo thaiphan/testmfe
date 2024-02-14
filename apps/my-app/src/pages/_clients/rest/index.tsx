@@ -1,13 +1,13 @@
 import { GetStaticProps } from 'next';
 import { ReactElement } from 'react';
-import { DefaultLayout } from '../components/DefaultLayout';
+import { CustomLayout } from '../../..//components/CustomLayout';
 
 export function Index() {
-  return <>hello</>;
+  return <>rest hello</>;
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {
-  return <DefaultLayout>{page}</DefaultLayout>;
+  return <CustomLayout>{page}</CustomLayout>;
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       i18n: {
         locale,
-        messages: (await import(`../locales/${locale}.json`)).default,
+        messages: (await import(`../../../locales/${locale}.json`)).default,
       },
     },
   };

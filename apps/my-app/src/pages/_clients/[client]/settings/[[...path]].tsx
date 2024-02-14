@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { DefaultLayout } from '../../components/DefaultLayout';
+import { DefaultLayout } from '../../../../components/DefaultLayout';
 
 export function SettingsPages(props: { i18n: { locale?: string } }) {
   const [Component, setComponent] = useState<
@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       i18n: {
         locale,
-        messages: (await import(`../../locales/${locale}.json`)).default,
+        messages: (await import(`../../../../locales/${locale}.json`)).default,
       },
     },
   };
