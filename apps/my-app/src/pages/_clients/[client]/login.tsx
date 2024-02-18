@@ -1,10 +1,20 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const t = useTranslations();
+  const router = useRouter();
 
-  const handleContinue = () => {};
+  const handleContinue = () => {
+    fetch('/api/login', {
+      method: 'POST',
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        router.replace('/');
+      });
+  };
 
   return (
     <div className="bg-gray-300 min-h-full flex justify-center items-center">

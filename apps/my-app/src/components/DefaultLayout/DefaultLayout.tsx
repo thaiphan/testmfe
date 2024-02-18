@@ -2,6 +2,7 @@ import Link, { LinkProps } from 'next/link';
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -41,14 +42,21 @@ const MenuItems = (props: React.PropsWithChildren) => {
 export type MenuItemProps = Pick<LinkProps, 'href'>;
 
 const MenuItem = (props: React.PropsWithChildren<MenuItemProps>) => {
-  const router = useRouter();
+  const { asPath, isReady } = useRouter();
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (isReady) {
+      setIsActive(asPath === props.href);
+    }
+  }, [asPath, isReady, props.href]);
 
   return (
     <li>
       <Link
         href={props.href}
         className={`${
-          router.asPath === props.href ? 'bg-gray-900' : ''
+          isActive ? 'bg-gray-900' : ''
         } text-gray-300 text-xs h-[60px] w-[68px] flex rounded items-center justify-center font-semibold hover:bg-gray-900`}
       >
         {props.children}
